@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2019-04-08 16:50:15 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 19:58:02
+ * @Last Modified time: 2019-04-08 21:27:11
  */
 
 
@@ -23,7 +23,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "lib"),
     filename: '[name].js',
-    publicPath: './'
+    publicPath: './',
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['.js'],
@@ -48,8 +49,8 @@ module.exports = {
   },
   externals: [
     function(context, request, callback) {
-      if (/^(moment)|(antd)/.test(request)){
-        return callback(null, request);
+      if (/^(moment)|(antd)/i.test(request)){
+        return callback(null, 'commonjs ' + request);
       }
       callback();
     }
