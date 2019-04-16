@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 17:40:54
+ * @Last Modified time: 2019-04-16 14:55:30
  * @desc： 基础form组件
  */
 
@@ -61,13 +61,6 @@ class DnaForm extends BaseForm {
     if (!this.props.id) {
       return;
     }
-    
-    // let rs = getUrlFromUrlObj(this.props.fetchUrl, {id: this.props.id});
-    // // 请在request中统一处理异常
-    // sysHttp.get(rs.url).then(res => {
-    //   this.state.formModel.setFormData(res);
-    //   this.state.formModel.setLocalFormData(res);
-    // });
   }
 }
 

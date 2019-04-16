@@ -2,12 +2,17 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 17:47:06
+ * @Last Modified time: 2019-04-16 15:02:27
  * @Desc：表单核心数据逻辑
+ * @TODOS: 
+ *      [ ] form初始化完成事件
+ *      [ ] 独立各Field的初始化
+ *      [ ] 增加form init ready的时间节点
  */
-import { observable, action, runInAction, _isComputingDerivation } from 'mobx';
+import { observable, action, runInAction, _isComputingDerivation, when } from 'mobx';
 import { formatRules, validating } from './validator';
 import { cloneDeep, pick, merge, omit, clone} from "lodash";
+import Ctx from '@ctx';
 import { ctxReplace } from "ctx-replace";
 import fieldsXActionHandler from "./x-action";
 
@@ -33,9 +38,16 @@ class Field {
   @observable defaultValue;
   @observable _id;
   @observable cache = {};
+
+  setValue = () => {}
   
   constructor(options) {
     this.init(options);
+    when(() => this.localDataMap.length > 0, () => {
+      if (this._meta.firstSelect) {
+        this.setValue(this.localDataMap[0].key, this.localDataMap[0])
+      }
+    })
   }
   
   @action init = (options) => {
@@ -111,7 +123,6 @@ class FormModel {
     status: 'create',
   };
   @observable outerCtx = {};
-  request = {}
 
   @observable extentions = {
     datasourceFormat: {}
@@ -119,6 +130,14 @@ class FormModel {
   
   constructor(formDefinition) {
     this.init(formDefinition);
+  }
+
+  /**
+   * 重置form，将form的配置和字段恢复到初始化时的状态
+   */
+  @action reset(){
+    this._meta.immediatlyValidate = false;
+    this.resetFormData();
   }
   
   /**
@@ -129,6 +148,13 @@ class FormModel {
     this.outerCtx = formDefinition.outerCtx || {};
     
     const {fields, regions, _meta } = formDefinition;
+
+    // 创建form
+    const createField = (field) => {
+      return new Field(Object.assign({}, field, {
+        setValue: (value, localValue) => { this.setFieldValue(field, value, localValue)}
+      }))
+    }
     
     // 初始化_meta
     this._meta = Object.assign({}, this._meta, _meta)
@@ -136,7 +162,7 @@ class FormModel {
     // 只存在fields
     if (fields && fields.length > 0) {
       fields.forEach(field => {
-        this.fields.push(new Field(field));
+        this.fields.push(createField(field));
       });
       
       this.regions.push(new Region({
@@ -150,7 +176,7 @@ class FormModel {
         let regionFields = [];
         // 生成fields
         region.fields.forEach(field => {
-          let fieldIns = new Field(field);
+          let fieldIns = createField(field);
           regionFields.push(fieldIns);
           this.fields.push(fieldIns);
         });
@@ -185,6 +211,12 @@ class FormModel {
     Object.assign(this.localFormData, state);
   }
 
+  /**
+   * 设置默认值，将会和已有的默认值合并
+   */
+  @action setDefaultFormData = (data) => {
+    this._defaultFormData = Object.assign({}, this._defaultFormData, data);
+  }
   /**
    * 恢复页面的数据为 frozenData
    * 使用场景：页面编辑后取消，需要恢复数据
@@ -288,7 +320,7 @@ class FormModel {
   /**
    * 刷新目标field的数据源（DataMap）
    */
-  @action reloadingDataMap = (field, ctx={}) => {
+  @action reloadingDataMap = (field, ctx={}, callback) => {
     field = this.fields.find(x => x._id === field.fieldKey);
     
     if (!field) {return;}
@@ -301,7 +333,7 @@ class FormModel {
         ctx: Object.assign({}, formData, ctx),
         pctx: outerCtx
       });
-      this.request.get(rs.url).then(res => {
+      Ctx.request.get(rs.url).then(res => {
         // 兼容， 异步级联时对map有特殊要求
         if (field._type === 'Field_AsyncCascaser' || field._type === 'Field_FuckQestion') {
           res = res.map(x => {
@@ -330,8 +362,11 @@ class FormModel {
         
         runInAction(() => {
           field.localDataMap = res || [];
+          callback && callback(res);
         })
       });
+    } else {
+      callback && callback(field.localDataMap||[]);
     }
   }
   

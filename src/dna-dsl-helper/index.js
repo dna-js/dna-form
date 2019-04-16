@@ -20,6 +20,10 @@ class Form {
   }
 }
 
+class Field {
+  
+}
+
 export default {
   Form
 }

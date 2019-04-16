@@ -1,11 +1,12 @@
 {
   "name": "@dna-js/dna-form",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "@dna-js/dna-form",
   "main": "./lib/index.js",
   "scripts": {
     "build": "rm -rf lib &&  webpack --config webpack.config.js --progress",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -28,11 +29,7 @@
     "mobx-react": "^5.4.3",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
-    "react-contextmenu": "^2.11.0",
-    "react-dom": "^16.6.3",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "superagent": "^4.0.0"
+    "react-dom": "^16.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

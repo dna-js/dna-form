@@ -13,7 +13,7 @@ import React from "react";
 import AbstractField from "../abstract-field";
 import { Select } from "antd";
 import { observer } from 'mobx-react';
-import FormConfig from '@config';
+import Ctx from '@ctx';
 
 import './index.scss';
 
@@ -140,7 +140,7 @@ export default class UsergroupStaffSelect extends AbstractField {
         `keyword=${val||''}`
     ].join('&');
 
-    FormConfig.request.get(url).then(res => {
+    Ctx.request.get(url).then(res => {
       this.state.staffOption = res;
       this.props.Field.setCache({staffOption: res})
       this.setState({})

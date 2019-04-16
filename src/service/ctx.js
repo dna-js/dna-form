@@ -2,11 +2,11 @@
  * @Author: magmaliang@gmail.com 
  * @Date: 2019-04-08 17:31:45 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 17:52:20
+ * @Last Modified time: 2019-04-16 14:56:00
  * @Desc: set config
  */
 
-class FormConfig {
+class Ctx {
    request = {
      get: ()=>{
        console.warn('请求配置未设置')
@@ -25,8 +25,8 @@ class FormConfig {
    }
  }
 
-const formConfig = new FormConfig();
+const ctx = new Ctx();
 
-export default formConfig;
+export default ctx;
 
 

@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2019-04-08 16:50:15 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 21:27:11
+ * @Last Modified time: 2019-04-16 15:05:49
  */
 
 
@@ -29,7 +29,7 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     alias: {
-      "@config": resolve("/service/config")
+      "@ctx": resolve("/service/ctx")
     },
     modules: ['node_modules']
   },
@@ -49,7 +49,7 @@ module.exports = {
   },
   externals: [
     function(context, request, callback) {
-      if (/^(moment)|(antd)/i.test(request)){
+      if (/^(moment)|(antd)|(lodash)|(react)/i.test(request)){
         return callback(null, 'commonjs ' + request);
       }
       callback();

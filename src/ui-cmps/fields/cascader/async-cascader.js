@@ -13,7 +13,7 @@ import { ctxReplace } from "ctx-replace";
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 
-import FormConfig from '@config';
+import Ctx from '@ctx';
 
 /**
  * 从formData中提取级联组件的值
@@ -90,7 +90,7 @@ export default class FieldCascader extends AbstractField {
     let rs = ctxReplace.getUrlFromUrlObj(dataMap[level], Object.assign({}, formData, addtionalCtx));
 
     return new Promise((resolve, reject)=>{
-      FormConfig.request.get(rs.url)
+      Ctx.request.get(rs.url)
       .then(res => {
         res = res || [];
         res = res.map(x => {
@@ -127,7 +127,7 @@ export default class FieldCascader extends AbstractField {
     let rs = ctxReplace.getUrlFromUrlObj(dataMap[level], Object.assign({}, formData, addtionalCtx));
 
     return new Promise((resolve, reject)=>{
-      FormConfig.request.get(rs.url)
+      Ctx.request.get(rs.url)
       .then(res => {
         res = res || [];
         res = res.map(x => {

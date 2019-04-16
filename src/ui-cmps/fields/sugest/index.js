@@ -2,7 +2,7 @@
  * @Author: 宋慧武 
  * @Date: 2018-08-27 19:04:38 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-04-02 17:02:54
+ * @Last Modified time: 2019-04-15 16:24:21
  * @Desc select的输入和输出按照antd来
  */
 import React from 'react';
@@ -40,7 +40,6 @@ class FieldSelect extends AbstractField {
     this.props.fieldChange(this.props, value, originValue);
   }
   
-
   renderOptions = () => {
     // 后端可能返回空key的数据，antd不支持，需要过滤掉
     return this.state.dataMap.filter(x => {
@@ -49,7 +48,6 @@ class FieldSelect extends AbstractField {
       return <Option key={ele.key}>{ele.value}</Option>;
     });
   }
-
   render() {
     return (
       <Select {...this.filterProps()} 
