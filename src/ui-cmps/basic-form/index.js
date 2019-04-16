@@ -2,21 +2,21 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 14:55:30
+ * @Last Modified time: 2019-04-16 17:04:12
  * @desc： 基础form组件
  */
 
 import React from 'react';
 import PropTypes from "prop-types";
 import { pick } from 'lodash';
-import BaseForm from '../abstract-class/base-form';
+import AbsForm from '../abstract-class/abs-form';
 import DnaFormRegion from '../form-region';
 import { observer } from 'mobx-react';
 import './index.scss';
 
 
 @observer
-class DnaForm extends BaseForm {
+class DnaForm extends AbsForm {
   constructor(options){
     super(options);
   }

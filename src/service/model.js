@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 15:02:27
+ * @Last Modified time: 2019-04-16 16:35:49
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -333,7 +333,7 @@ class FormModel {
         ctx: Object.assign({}, formData, ctx),
         pctx: outerCtx
       });
-      Ctx.request.get(rs.url).then(res => {
+      Ctx.silentRequest.get(rs.url).then(res => {
         // 兼容， 异步级联时对map有特殊要求
         if (field._type === 'Field_AsyncCascaser' || field._type === 'Field_FuckQestion') {
           res = res.map(x => {

@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-03-21 16:44:11
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-04-16 17:04:36
  * @Desc: 搜索态表单
  *        1）search form 的 datamap 延迟到field中获取，因为传递了引用类型的formData(慎用！！！)
  * @Todos: 
@@ -12,7 +12,7 @@
  *        [ ] form-region 支持
  */
 
-import BaseForm from '../abstract-class/base-form';
+import AbsForm from '../abstract-class/abs-form';
 import PropTypes from "prop-types";
 import './index.scss';
 
@@ -20,7 +20,7 @@ import './index.scss';
 import { observer } from 'mobx-react';
 
 @observer
-class DnaSearchForm extends BaseForm {
+class DnaSearchForm extends AbsForm {
   constructor(options) {
     super(options);
   }
