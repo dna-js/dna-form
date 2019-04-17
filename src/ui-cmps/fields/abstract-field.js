@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-27 17:57:35 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-03-26 18:12:20
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-04-17 17:17:45
  * @desc 抽象类组件，对field组件的通用行为进行统一管理
  * 所有field组件都是受控组件
  * todo: [ ]将数据源的刷新发到model中去
@@ -46,7 +46,7 @@ export default class AbstractField extends Component {
       _type: this.props._type,
       fieldKey: this.props.fieldKey
     }
-    this.props.reloadingDataMap(_field, ctx, this.props.formCtx);
+    this.props.reloadingDataMap(_field, ctx);
   }
 
   /**
