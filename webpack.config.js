@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2019-04-08 16:50:15 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 15:31:26
+ * @Last Modified time: 2019-04-17 18:39:23
  */
 
 
@@ -49,7 +49,7 @@ module.exports = {
   },
   externals: [
     function(context, request, callback) {
-      if (/^(moment)|(antd)|(lodash)/i.test(request)){
+      if (/^(moment)|(antd)|(lodash)|(mobx$)/i.test(request)){
         return callback(null, 'commonjs ' + request);
       }
       callback();

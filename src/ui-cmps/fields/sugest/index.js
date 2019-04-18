@@ -6,7 +6,7 @@
  * @Desc select的输入和输出按照antd来
  */
 import React from 'react';
-import AbstractField from "../abstract-field";
+import AbstractField from "../IField";
 import { Select } from 'antd';
 const Option = Select.Option;
 import { observer } from 'mobx-react';

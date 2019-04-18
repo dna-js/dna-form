@@ -10,7 +10,7 @@
 
 import { DatePicker } from 'antd';
 import React from "react";
-import AbstractField from "../abstract-field";
+import AbstractField from "../IField";
 const { RangePicker } = DatePicker;
 import { LocaleProvider } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';

@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import AbstractField from "../abstract-field";
+import AbstractField from "../IField";
 import { Cascader } from 'antd';
 import { ctxReplace } from "ctx-replace";
 import { runInAction } from 'mobx';

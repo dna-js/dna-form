@@ -6,7 +6,7 @@
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
-import AbstractField from "../abstract-field";
+import AbstractField from "../IField";
 import { Input } from "antd";
 import { observer } from 'mobx-react';
 

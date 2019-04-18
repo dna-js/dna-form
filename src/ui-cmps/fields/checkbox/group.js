@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import AbstractField from '../abstract-field';
+import AbstractField from '../IField';
 import { Checkbox } from 'antd';
 
 export default class FieldCheckboxGroup extends AbstractField {
