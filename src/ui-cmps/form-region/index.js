@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-18 15:46:07
+ * @Last Modified time: 2019-04-25 01:16:35
  * @Desc: form region, feild的容器
  */
 
@@ -27,6 +27,7 @@ class DnaFormRegion extends Component {
   render() {
     let className = [this.props.className, this.props._meta.layout].join(' ');
     const {header} = this.props;
+    console.log('key---->key---->', this.props.key)
     return <div className="form-region">
       {
         header.visible ? <div className='region-header'>

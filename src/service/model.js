@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 16:35:49
+ * @Last Modified time: 2019-04-24 21:23:27
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -23,6 +23,7 @@ class Field {
   @observable formDataLegal = false; // formdata 是否通过了验证，是合法的数据
   
   // === 业务数据 ====
+  @observable _id;
   @observable dataMap = []; // 原始值
   @observable localDataMap = []; // 转化之后的值
   @observable _meta = {
@@ -36,7 +37,6 @@ class Field {
   @observable fieldName;
   @observable fieldKey;
   @observable defaultValue;
-  @observable _id;
   @observable cache = {};
 
   setValue = () => {}
@@ -44,6 +44,7 @@ class Field {
   constructor(options) {
     this.init(options);
     when(() => this.localDataMap.length > 0, () => {
+      // 默认选中第一个
       if (this._meta.firstSelect) {
         this.setValue(this.localDataMap[0].key, this.localDataMap[0])
       }
@@ -56,9 +57,12 @@ class Field {
       options._id = options.fieldKey;
     }
     // 我知道这段代码看起来很奇怪，但是lodash的merge是索引级merge，对数组进行索引级merge会引发mobx巨量警告
-    merge(this, omit(options, ['dataMap']));
+    merge(this, omit(options, ['dataMap', 'localDataMap']));
     merge(this._meta, options._meta);
     this.dataMap = options.dataMap;
+    if (options.localDataMap) {
+      this.localDataMap.replace(options.localDataMap)
+    }
 
     // 初始数据源是对象数组, 则直接设置localDataMap
     if (this.dataMap.length > 0 && typeof this.dataMap[0] == 'object') {
@@ -324,8 +328,10 @@ class FormModel {
     field = this.fields.find(x => x._id === field.fieldKey);
     
     if (!field) {return;}
-    const { dataMap } = field;
+    let { dataMap } = field;
     const { formData, outerCtx } = this;
+    // mobx 会有异常检查
+    dataMap = dataMap.slice();
     // 如果原始数据源中存在url，则请求
     if (typeof dataMap[0] == 'string') {
       let rs = ctxReplace.getUrl({
@@ -401,7 +407,7 @@ class FormModel {
       return;
     }
     
-    console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
+    // console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
     
     this.formData[fieldKey] = value;
     this.localFormData[fieldKey] = localValue;
@@ -436,6 +442,8 @@ class FormModel {
         }, this);
       }
     }
+
+
   }
 }
 
