@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 14:57:48
+ * @Last Modified time: 2019-04-19 14:39:58
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -14,9 +14,9 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Form } from "antd";
-const FormItem = Form.Item;
-import Fields from "../fields";
+// import { Form } from "antd";
+// const FormItem = Form.Item;
+// import Fields from "../fields";
 import { pick } from 'lodash';
 
  /**
@@ -68,33 +68,34 @@ class BaseForm extends Component {
   }
 
   render() {
-    return (<Form className={this.props.className} layout="inline">
-      {this.createFields()}
-    </Form>);
+    return null;
+    // return (<Form className={this.props.className} layout="inline">
+    //   {this.createFields()}
+    // </Form>);
   }
 
   getFormMeta() {
     return {formContext: pick(this.props, ['_meta', '_type'])};
   }
 
-  /**
-   * 生成field
-   */
-  createFields() {
-    const { localFormData, fields } = this.state.formModel;
-    return fields.map((x, index) => {
-      let Cmp = Fields.getDefFromField(x);
-      return <FormItem
-            {...this._derivedFieldProp(x, index)}
-          >
-            <Cmp {...x} 
-              fieldChange={this.setFieldValue} 
-              value={localFormData[x.fieldKey]} 
-              formCtx={this.props.outerCtx}
-            />
-          </FormItem>;
-    });
-  }
+  // /**
+  //  * 生成field
+  //  */
+  // createFields() {
+  //   const { localFormData, fields } = this.state.formModel;
+  //   return fields.map((x, index) => {
+  //     let Cmp = Fields.getDefFromField(x);
+  //     return <FormItem
+  //           {...this._derivedFieldProp(x, index)}
+  //         >
+  //           <Cmp {...x} 
+  //             fieldChange={this.setFieldValue} 
+  //             value={localFormData[x.fieldKey]} 
+  //             formCtx={this.props.outerCtx}
+  //           />
+  //         </FormItem>;
+  //   });
+  // }
 
   _derivedFieldProp = (field, index) => {
     const { validationRules, validationResults } = this.state.formModel;

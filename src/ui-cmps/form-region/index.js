@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-03-22 18:06:18
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-04-18 15:46:07
  * @Desc: form region, feild的容器
  */
 
@@ -25,7 +25,6 @@ class DnaFormRegion extends Component {
   }
 
   render() {
-    let x = this.props.formData.levelFiveCode;
     let className = [this.props.className, this.props._meta.layout].join(' ');
     const {header} = this.props;
     return <div className="form-region">
