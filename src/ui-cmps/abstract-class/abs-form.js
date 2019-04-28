@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-24 18:58:22
+ * @Last Modified time: 2019-04-28 14:24:03
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -43,7 +43,7 @@ class BaseForm extends Component {
     super(options);
     // 如果外层传递了formModel则使用外层的formModel
     this.state = {
-      formModel: options.formModel || new FormModel(options),
+      formModel: new FormModel(options),
       status: getKey(options, '_meta.status')
     }
 
@@ -105,6 +105,11 @@ class BaseForm extends Component {
 
   componentDidMount = () => {
     this.props.formMounted && this.props.formMounted(this.state.formModel.formData);
+  }
+
+  componentWillUnmount(){
+    console.log('释放formmodel')
+    this.setState({formModel: null})
   }
 }
 
