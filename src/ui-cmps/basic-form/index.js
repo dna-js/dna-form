@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 11:57:04
+ * @Last Modified time: 2019-05-05 17:07:03
  * @desc： 基础form组件
  */
 
@@ -47,15 +47,16 @@ class DnaForm extends AbsForm {
   }
 
   renderFields = (fields) => {
-    const { localFormData, formData, reloadingDataMap, setFieldValue} = this.state.formModel;
+    const { localFormData, formData, reloadingDataMap} = this.state.formModel;
     return fields.filter(x=>x._meta.visible).map((x, index) => {
       let Cmp = Fields.getDefFromField(x);
       return <FormItem
             {...this._derivedFieldProp(x, index)}
+            className={x._type}
           >
             <Cmp {...x} 
               Field = {x}
-              fieldChange={setFieldValue} 
+              fieldChange={this.setFieldValue} 
               value={localFormData[x.fieldKey]} 
               formCtx={this.props.outerCtx}
               formData={formData}
