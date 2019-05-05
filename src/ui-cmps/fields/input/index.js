@@ -1,22 +1,25 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-03-11 18:25:32
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-05 14:30:33
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
-import AbstractField from "../IField";
+import IField from "../IField";
 import { Input } from "antd";
 import { observer } from 'mobx-react';
 
 @observer
-export default class FieldInput extends AbstractField {
+export default class FieldInput extends IField {
   constructor(options){
     super(options);
   }
 
   render(){
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
     const {attr = {}} =this.props._meta;
     return <Input 
       {...this.filterProps()} 

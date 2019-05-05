@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-21 17:01:52 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-03-22 12:42:20
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-05 15:50:12
  * @Desc: field 之间的联动action 模块
  *  核心理念：基于数据的联动，不引入UI行为
  */
@@ -51,7 +51,7 @@ const xactionDealMap = {
     formDataDefinition.reloadingDataMap(target)
     // 清空值，重获数据源都伴随着清空值(只有编辑态时才触发清空)
     // TODO: bug，对于散射生成的值需要清空所有散射
-    if (target._meta.enable === true) {
+    if (target._meta.enable === true && target._meta.status !== 'detail') {
       formDataDefinition.setFormData({[target.fieldKey]: ''})
     }
   },

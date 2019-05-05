@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 16:35:49
+ * @Last Modified time: 2019-05-05 15:50:55
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -56,9 +56,12 @@ class Field {
       options._id = options.fieldKey;
     }
     // 我知道这段代码看起来很奇怪，但是lodash的merge是索引级merge，对数组进行索引级merge会引发mobx巨量警告
-    merge(this, omit(options, ['dataMap']));
+    merge(this, omit(options, ['dataMap', 'localDataMap']));
     merge(this._meta, options._meta);
     this.dataMap = options.dataMap;
+    if (options.localDataMap) {
+      this.localDataMap.replace(options.localDataMap)
+    }
 
     // 初始数据源是对象数组, 则直接设置localDataMap
     if (this.dataMap.length > 0 && typeof this.dataMap[0] == 'object') {
@@ -72,6 +75,14 @@ class Field {
   
   @action disable = () => {
     this._meta.enable = false;
+  }
+
+  @action detail = () => {
+    this._meta.status = 'detail';
+  }
+  
+  @action antiDetail = (status = 'create') => {
+    this._meta.status = 'status';
   }
 
   // 缓存操作
@@ -327,7 +338,7 @@ class FormModel {
     const { dataMap } = field;
     const { formData, outerCtx } = this;
     // 如果原始数据源中存在url，则请求
-    if (typeof dataMap[0] == 'string') {
+    if (dataMap.length > 0 && (typeof dataMap[0] == 'string')) {
       let rs = ctxReplace.getUrl({
         urlObj: dataMap[0],
         ctx: Object.assign({}, formData, ctx),
@@ -368,6 +379,18 @@ class FormModel {
     } else {
       callback && callback(field.localDataMap||[]);
     }
+  }
+
+  transfer2Detail = () => {
+    this.fields.forEach(x => {
+      x.detail()
+    })
+  }
+
+  transfer2AntiDetail = (status) => {
+    this.fields.forEach(x => {
+      x.antiDetail(status)
+    })
   }
   
   /**

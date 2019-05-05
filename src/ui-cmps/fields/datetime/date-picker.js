@@ -1,24 +1,27 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-08 17:06:23 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-01-04 16:46:34
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-05 14:29:27
  */
 
 import { DatePicker } from 'antd';
 import React from "react";
-import AbstractField from "../IField";
+import IField from "../IField";
 import { LocaleProvider } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 
 
-export default class FieldInput extends AbstractField {
+export default class FieldInput extends IField {
   constructor(options){
     super(options);
   }
 
   render(){
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
     let obj = {value: this.state.value};
     if (!this.props._meta.showTime) {
       obj.showTime = true;

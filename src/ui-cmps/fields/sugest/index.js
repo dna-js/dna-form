@@ -1,20 +1,20 @@
 /*
  * @Author: 宋慧武 
  * @Date: 2018-08-27 19:04:38 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-04-15 16:24:21
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-05 15:37:31
  * @Desc select的输入和输出按照antd来
  */
 import React from 'react';
-import AbstractField from "../IField";
+import IField from "../IField";
 import { Select } from 'antd';
 const Option = Select.Option;
 import { observer } from 'mobx-react';
 
 @observer
-class FieldSelect extends AbstractField {
-  constructor() {
-    super();
+class FieldSelect extends IField {
+  constructor(options) {
+    super(options);
   }
 
   static getDerivedStateFromProps(props, state){
@@ -49,6 +49,9 @@ class FieldSelect extends AbstractField {
     });
   }
   render() {
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
     return (
       <Select {...this.filterProps()} 
         value={this.state.value}
@@ -60,6 +63,18 @@ class FieldSelect extends AbstractField {
         {this.renderOptions()}
       </Select>
     );
+  }
+
+  // sug的value存在数据形式
+  getText = () => {
+    let {formData, fieldKey} = this.props;
+    let val = formData[fieldKey], value = '';
+    const { dataMap } = this.state;
+
+    if (dataMap && dataMap.length) {
+      value = (dataMap.find(x=>x.key === val)||{}).value;
+    }
+    return value;
   }
 }
  

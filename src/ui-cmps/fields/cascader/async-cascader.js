@@ -2,12 +2,12 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 17:40:10 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 17:56:27
+ * @Last Modified time: 2019-05-05 16:05:02
  * @Desc: 异步级联选择, 业务逻辑较重，慎重开发
  */
 
 import React from "react";
-import AbstractField from "../IField";
+import IField from '../IField';
 import { Cascader } from 'antd';
 import { ctxReplace } from "ctx-replace";
 import { runInAction } from 'mobx';
@@ -34,7 +34,7 @@ function derivingValueUnderCascaderKeys(props){
 }
 
 @observer
-export default class FieldCascader extends AbstractField {
+export default class FieldCascader extends IField {
   constructor(options) {
     super(options);
     this.state = { 
@@ -56,7 +56,7 @@ export default class FieldCascader extends AbstractField {
   componentDidUpdate(prevProps, prevState) {
     // 在组件不可用时，value值由空变成了有，说明业务数据初次到达，则需要对节点进行展开
     // TODO: 逻辑过于复杂
-    if (this.props._meta.enable === false) {
+    if (this.props._meta.status === 'detail') {
       let value = this.state.value;
       (async ()=>{
         let children = this.state.dataMap;
@@ -77,40 +77,6 @@ export default class FieldCascader extends AbstractField {
   }
 
   /**
-   * 展开指定节点的后代,level从0开始
-   */
-  expandChildren = (level, addtionalCtx = {}) => {
-    const {_meta, formData, dataMap} = this.props;
-    let isLeaf = false;
-    // 最后一层节点都是叶子
-    if (level + 1 === _meta.cascaderKeys.length) {
-      isLeaf = true;
-    }
-
-    let rs = ctxReplace.getUrlFromUrlObj(dataMap[level], Object.assign({}, formData, addtionalCtx));
-
-    return new Promise((resolve, reject)=>{
-      Ctx.request.get(rs.url)
-      .then(res => {
-        res = res || [];
-        res = res.map(x => {
-          return {
-            value: x.key,
-            label: x.value,
-            isLeaf: isLeaf
-          };
-        });
-
-        resolve(res);
-      })
-      // 展开失败则当前节点变成leaf
-      .catch(e => {
-        resolve([])
-      })
-    })
-  }
-
-  /**
    * 展开指定节点
    */
   expandNode = (node, level, addtionalCtx={}) => {
@@ -127,7 +93,7 @@ export default class FieldCascader extends AbstractField {
     let rs = ctxReplace.getUrlFromUrlObj(dataMap[level], Object.assign({}, formData, addtionalCtx));
 
     return new Promise((resolve, reject)=>{
-      Ctx.request.get(rs.url)
+      Ctx.silentRequest.get(rs.url)
       .then(res => {
         res = res || [];
         res = res.map(x => {
@@ -159,7 +125,7 @@ export default class FieldCascader extends AbstractField {
     
     // 递归已选值ctx
     let len = level + 1, innerCtx = {};
-    while(--len) {
+    while(len--) {
       innerCtx[_meta.cascaderKeys[len]] = selectedOptions[len].value
     }
 
@@ -182,7 +148,7 @@ export default class FieldCascader extends AbstractField {
       options={this.state.dataMap}
       loadData={this.loadData}
       placeholder={'点击筛选'}
-      changeOnSelect
+      expandTrigger='hover'
       value={this.state.value}
     />;
   }

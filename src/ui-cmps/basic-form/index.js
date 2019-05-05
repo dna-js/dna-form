@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-16 17:04:12
+ * @Last Modified time: 2019-05-05 11:57:04
  * @desc： 基础form组件
  */
 
@@ -10,10 +10,11 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { pick } from 'lodash';
 import AbsForm from '../abstract-class/abs-form';
-import DnaFormRegion from '../form-region';
 import { observer } from 'mobx-react';
+import Fields from "../fields";
+import { Form } from "antd";
+const FormItem = Form.Item;
 import './index.scss';
-
 
 @observer
 class DnaForm extends AbsForm {
@@ -21,26 +22,22 @@ class DnaForm extends AbsForm {
     super(options);
   }
 
-  componentDidMount(){
-    this.tryFetchData();
-  }
-
   render() {
-    const { localFormData, validationRules, validationResults, formData, reloadingDataMap } = this.state.formModel;
     return (<div 
       className={this.props.className}>
       {this.state.formModel.regions.map((region, index) => {
-        return <DnaFormRegion
-          {...region}
-          key={index}
-          localFormData={localFormData}
-          formData={formData}
-          setFieldValue={this.setFieldValue}
-          outerCtx={this.props.outerCtx}
-          validationResults = {validationResults}
-          validationRules = {validationRules}
-          reloadingDataMap = {reloadingDataMap}
-        ></DnaFormRegion>
+        let className = [region._meta.layout].join(' ');
+        const {header, fields} = region;
+        return <div className="form-region" key={index}>
+          {
+            header.visible ? <div className='region-header'>
+            <p className="region-title">{header.title}</p>
+          </div>: null  
+          }
+          <Form className={className} >
+            {this.renderFields(fields)}
+          </Form>
+        </div>;
       })}
     </div>);
   }
@@ -49,18 +46,45 @@ class DnaForm extends AbsForm {
     return {formContext: pick(this.props, ['_meta', '_type'])}; 
   }
 
-  /**
-   * 表单处于编辑状态及传入了数据的id，则开始获取表单的数据，并入到field的default value中
-   */
-  tryFetchData(){
-    // 非编辑态，不需要获取表单数据
-    if (this.state.status !== 'edit') {
-      return;
+  renderFields = (fields) => {
+    const { localFormData, formData, reloadingDataMap, setFieldValue} = this.state.formModel;
+    return fields.filter(x=>x._meta.visible).map((x, index) => {
+      let Cmp = Fields.getDefFromField(x);
+      return <FormItem
+            {...this._derivedFieldProp(x, index)}
+          >
+            <Cmp {...x} 
+              Field = {x}
+              fieldChange={setFieldValue} 
+              value={localFormData[x.fieldKey]} 
+              formCtx={this.props.outerCtx}
+              formData={formData}
+              reloadingDataMap={reloadingDataMap}
+              key={index}
+            />
+          </FormItem>;
+    });
+  }
+
+  _derivedFieldProp = (field, index) => {
+    const { validationRules, validationResults } = this.state.formModel;
+    let itemProps = {
+      label: field.fieldName,
+      key: index
+    };
+
+    // 如果 验证规则中存在必填
+    if ((validationRules[field.fieldKey]||[]).find(field => field.required)) {
+      itemProps.required = true;
     }
-    // 没有id，也不获取
-    if (!this.props.id) {
-      return;
+    
+    // 验证失败msg
+    if (validationResults[field.fieldKey]) {
+      itemProps.help = validationResults[field.fieldKey][0].message;
+      itemProps.validateStatus = 'error';
     }
+
+    return itemProps;
   }
 }
 

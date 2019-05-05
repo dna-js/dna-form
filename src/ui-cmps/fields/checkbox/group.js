@@ -1,17 +1,17 @@
 /*
  * @Author: 宋慧武 
  * @Date: 2018-08-27 17:24:59 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-01-03 18:30:03
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-05 14:29:20
  */
 
 import React from 'react';
-import AbstractField from '../IField';
+import IField from '../IField';
 import { Checkbox } from 'antd';
 
-export default class FieldCheckboxGroup extends AbstractField {
-  constructor() {
-    super();
+export default class FieldCheckboxGroup extends IField {
+  constructor(options) {
+    super(options);
   }
 
   static getDerivedStateFromProps(props, state){
@@ -25,6 +25,9 @@ export default class FieldCheckboxGroup extends AbstractField {
   }
 
   render() {
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
     const options = this.props.dataMap.map((item) => {
       return {
         ...item,
