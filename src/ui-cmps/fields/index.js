@@ -2,9 +2,13 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:45:26 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 12:37:18
+ * @Last Modified time: 2019-05-06 20:15:05
  * @desc: fields map exports
+ * @Todo:
+ *    [ ]增加对连续性Field的自洽能力
  */
+
+
 import React from "react";
 
 // 抽象组件

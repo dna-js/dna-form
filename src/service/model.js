@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 15:50:55
+ * @Last Modified time: 2019-05-06 20:13:58
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -98,7 +98,6 @@ class Field {
     return pick(this.cache, keys)
   }
 }
-
 
 // form区块，只负责展示区块，不包含表单功能
 // field的格式化由form完成
@@ -264,7 +263,8 @@ class FormModel {
       let target = Object.assign({}, this.fields.find(x => {
         return x.fieldKey === key || (x._meta.cascaderKeys && x._meta.cascaderKeys.indexOf(key) > -1)
       }), {fieldKey: key});
-      target && this.setFieldValue(target, state[key], state[key]);
+      
+      this.setFieldValue(target, state[key], state[key]);
     })
   }
   
@@ -344,17 +344,8 @@ class FormModel {
         ctx: Object.assign({}, formData, ctx),
         pctx: outerCtx
       });
+
       Ctx.silentRequest.get(rs.url).then(res => {
-        // 兼容， 异步级联时对map有特殊要求
-        if (field._type === 'Field_AsyncCascaser' || field._type === 'Field_FuckQestion') {
-          res = res.map(x => {
-            return {
-              value: x.key,
-              label: x.value,
-              isLeaf: false
-            }
-          })
-        }
         // 如果字段中存在对数据源格式化的方法，则调用
         if (this.extentions.datasourceFormat[field.fieldKey]) {
           res = this.extentions.datasourceFormat[field.fieldKey](res);
@@ -393,24 +384,6 @@ class FormModel {
     })
   }
   
-  /**
-   * 强行将所有field置为不可用
-   */
-  fieldsForceDisable = () => {
-    this.fields.forEach(x => {
-      x.disable()
-    })
-  }
-  
-  /**
-   * 强行将所有field置为可用
-   */
-  fieldsForceEnable = () => {
-    this.fields.forEach(x => {
-      x.enable()
-    })
-  }
-  
   @action setFieldValue = (fieldInfo, value, localValue) => {
     let fieldKey = fieldInfo.fieldKey;
     
@@ -424,7 +397,7 @@ class FormModel {
       return;
     }
     
-    console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
+    // console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
     
     this.formData[fieldKey] = value;
     this.localFormData[fieldKey] = localValue;

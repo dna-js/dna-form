@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-05-05 11:38:22
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-06 20:11:26
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -38,7 +38,7 @@ import { FormModel } from '../../service/model';
 import { observer } from 'mobx-react';
 
 @observer
-class BaseForm extends Component {
+class IForm extends Component {
   constructor(options) {
     super(options);
     // 如果外层传递了formModel则使用外层的formModel
@@ -87,12 +87,12 @@ class BaseForm extends Component {
   }
 }
 
-BaseForm.defaultProps = {
+IForm.defaultProps = {
   className: 'dna-abstract-form-layout-flow',
   onFormDataChange: ()=>{}
 };
 
-BaseForm.propTypes = {
+IForm.propTypes = {
   // 点击取消按钮时回调
   buttonCancel: PropTypes.func,
   // formdata 数据更改时触发
@@ -103,4 +103,4 @@ BaseForm.propTypes = {
   deriveServiceModel: PropTypes.func
 };
 
-export {BaseForm as default};
+export {IForm as default};

@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 17:40:10 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 16:05:02
+ * @Last Modified time: 2019-05-06 20:10:45
  * @Desc: 异步级联选择, 业务逻辑较重，慎重开发
  */
 
@@ -23,6 +23,10 @@ function derivingValueUnderCascaderKeys(props){
   const formData = props.formData,
         cascaderKeys = props._meta.cascaderKeys,
         value = [];
+  //TODO: 如果第一个值为空，则清空后续的值
+  if (!formData[cascaderKeys[0]]) {
+    return value;
+  }
 
   cascaderKeys.forEach(x => {
     if (formData[x] !== '' && formData[x]) {
