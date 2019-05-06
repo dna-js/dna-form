@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 17:07:03
+ * @Last Modified time: 2019-05-06 10:24:55
  * @desc： 基础form组件
  */
 
@@ -42,8 +42,14 @@ class DnaForm extends AbsForm {
     </div>);
   }
 
-  getFormMeta(){
-    return {formContext: pick(this.props, ['_meta', '_type'])}; 
+  /**
+   * 变更某个field的值
+   */
+  setFieldValue = (fieldInfo, value, localValue) => {
+    this.state.formModel.setFieldValue(fieldInfo, value, localValue)
+    this.setState({}, () => {
+      this.props.onFormDataChange(this.state.formModel.formData);
+    });
   }
 
   renderFields = (fields) => {

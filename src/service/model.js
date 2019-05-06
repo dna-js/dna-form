@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 15:50:55
+ * @Last Modified time: 2019-05-05 17:44:44
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -424,7 +424,7 @@ class FormModel {
       return;
     }
     
-    console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
+    // console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
     
     this.formData[fieldKey] = value;
     this.localFormData[fieldKey] = localValue;
