@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-06 20:51:03
+ * @Last Modified time: 2019-05-06 21:11:45
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -339,14 +339,25 @@ class FormModel {
     const { formData, outerCtx } = this;
     // 如果原始数据源中存在url，则请求
     if (dataMap.length > 0 && (typeof dataMap[0] == 'string')) {
+      // 排除空值
+      let tmp = Object.assign({}, formData, ctx), rctx={};
+      Object.keys(tmp).forEach(key => {
+        if (![undefined, ''].includes(tmp[key])) {
+          rctx[key] = tmp[key];
+        }
+      })
       let rs = ctxReplace.getUrl({
         urlObj: dataMap[0],
-        ctx: Object.assign({}, formData, ctx),
+        ctx: rctx,
         pctx: outerCtx
       });
       // TODO: 优化此开关结构
       if (_meta.dataMapUrlStrictMatch) {
         if (!rs.fillSuccess) {
+          runInAction(() => {
+            field.localDataMap = [];
+            callback && callback([]);
+          })
           return
         }
       }
