@@ -1,6 +1,6 @@
 {
   "name": "@dna-js/dna-form",
-  "version": "0.1.23",
+  "version": "0.1.31",
   "description": "@dna-js/dna-form",
   "main": "./lib/index.js",
   "scripts": {
