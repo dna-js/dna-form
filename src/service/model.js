@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 17:44:44
+ * @Last Modified time: 2019-05-06 11:43:47
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -39,8 +39,6 @@ class Field {
   @observable _id;
   @observable cache = {};
 
-  setValue = () => {}
-  
   constructor(options) {
     this.init(options);
     when(() => this.localDataMap.length > 0, () => {
@@ -104,8 +102,8 @@ class Field {
 // field的格式化由form完成
 class Region {
   @observable fields = [];
-  @observable header = {};
-  @observable _meta = {
+  header = {};
+  _meta = {
     layout: 'triple'
   };
   
@@ -124,7 +122,7 @@ class Region {
 class FormModel {
   @observable validationRules = {};
   @observable validationResults = {};
-  @observable fields = [];
+  // @observable fields = [];
   @observable regions = [];
   @observable formData = {}; // 对外使用的数据
   @observable localFormData = {}; // 组件使用的数据
@@ -150,6 +148,17 @@ class FormModel {
     this._meta.immediatlyValidate = false;
     this.resetFormData();
   }
+
+  getFieldById = (_id) => {
+    this.regions.forEach(region => {
+      let target = region.fields.find(f => f._id === _id);
+      if (target) {
+        return target
+      }
+    })
+
+    return null;
+  }
   
   /**
    * 支持fields 和 regions, 仅有fields时会创建一个无头的region
@@ -157,50 +166,28 @@ class FormModel {
    */
   @action init(formDefinition) {
     this.outerCtx = formDefinition.outerCtx || {};
-    
-    const {fields, regions, _meta } = formDefinition;
-
-    // 创建form
-    const createField = (field) => {
-      return new Field(Object.assign({}, field, {
-        setValue: (value, localValue) => { this.setFieldValue(field, value, localValue)}
-      }))
-    }
+    const { regions, _meta } = formDefinition;
     
     // 初始化_meta
     this._meta = Object.assign({}, this._meta, _meta)
     
-    // 只存在fields
-    if (fields && fields.length > 0) {
-      fields.forEach(field => {
-        this.fields.push(createField(field));
+    // 解析regions
+    regions.forEach(region => {
+      let regionFields = [];
+      // 生成fields
+      region.fields.forEach(field => {
+        let fieldIns = new Field(cloneDeep(field));
+        regionFields.push(fieldIns);
       });
       
-      this.regions.push(new Region({
-        fields: this.fields, // 引用对象
-        ctx: this.outerCtx,
-        header: {}
-      }));
-    } else {
-      // 解析regions
-      regions.forEach(region => {
-        let regionFields = [];
-        // 生成fields
-        region.fields.forEach(field => {
-          let fieldIns = createField(field);
-          regionFields.push(fieldIns);
-          this.fields.push(fieldIns);
-        });
-        
-        //生成 region
-        let regionDefinition = Object.assign({}, region, {
-          fields: regionFields,
-          ctx: this.outerCtx
-        })
-        
-        this.regions.push(new Region(regionDefinition));
+      //生成 region
+      let regionDefinition = Object.assign({}, region, {
+        fields: regionFields,
+        ctx: this.outerCtx
       })
-    }
+      
+      this.regions.push(new Region(regionDefinition));
+    })
     
     // 生成验证信息
     this.collectValidators();
@@ -260,11 +247,21 @@ class FormModel {
         });
     }
     
+    // 应用每个变更
     fieldKeys.forEach(key => {
-      let target = Object.assign({}, this.fields.find(x => {
-        return x.fieldKey === key || (x._meta.cascaderKeys && x._meta.cascaderKeys.indexOf(key) > -1)
-      }), {fieldKey: key});
-      target && this.setFieldValue(target, state[key], state[key]);
+      let target = {}, field;
+      this.regions.forEach(region => {
+        let f = region.fields.find(x => {
+          return x.fieldKey === key || (x._meta.cascaderKeys && x._meta.cascaderKeys.indexOf(key) > -1)
+        })
+
+        if (f) {
+          target = f;
+        }
+      })
+      
+      target = Object.assign({}, target, {fieldKey: key});
+      this.setFieldValue(field, state[key], state[key]);
     })
   }
   
@@ -298,11 +295,14 @@ class FormModel {
    * 收集validator规则
    */
   @action collectValidators = () => {
-    this.fields
+    this.regions.forEach(r => {
+      r.fields
       .filter(x => x.validationRules)
       .forEach(x => {
         this.validationRules[x.fieldKey] = formatRules(x.validationRules, x.fieldName);
       });
+    })
+      
   }
   
   @action derivingDefaultData = () => {
@@ -332,7 +332,7 @@ class FormModel {
    * 刷新目标field的数据源（DataMap）
    */
   @action reloadingDataMap = (field, ctx={}, callback) => {
-    field = this.fields.find(x => x._id === field.fieldKey);
+    field = this.getFieldById(field.fieldKey);
     
     if (!field) {return;}
     const { dataMap } = field;
@@ -382,32 +382,18 @@ class FormModel {
   }
 
   transfer2Detail = () => {
-    this.fields.forEach(x => {
-      x.detail()
+    this.regions.forEach(r=>{
+      r.fields.forEach(x => {
+        x.detail()
+      })
     })
   }
 
   transfer2AntiDetail = (status) => {
-    this.fields.forEach(x => {
-      x.antiDetail(status)
-    })
-  }
-  
-  /**
-   * 强行将所有field置为不可用
-   */
-  fieldsForceDisable = () => {
-    this.fields.forEach(x => {
-      x.disable()
-    })
-  }
-  
-  /**
-   * 强行将所有field置为可用
-   */
-  fieldsForceEnable = () => {
-    this.fields.forEach(x => {
-      x.enable()
+    this.regions.forEach(r=>{
+      r.fields.forEach(x => {
+        x.antiDetail(status)
+      })
     })
   }
   
@@ -451,7 +437,7 @@ class FormModel {
     if (fieldInfo.xactions) {
       let matchedAction = fieldInfo.xactions.filter(x => x.source.action === 'valueChange');
       if (matchedAction && matchedAction.length > 0) {
-        fieldsXActionHandler(this.fields, {
+        fieldsXActionHandler({
           fieldInfo,
           action: matchedAction,
           eventName: 'valueChange',
