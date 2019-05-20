@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 14:18:14 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-04-02 17:02:53
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-20 14:33:01
  * @Desc: 异步搜索sug, input变化触发搜索引起dataMap发生变化
  */
 import React from "react";
@@ -38,6 +38,7 @@ export default class AsyncSugest extends Sugest {
         showSearch
         labelInValue
         allowClear
+        defaultActiveFirstOption={false}
         value={this.state.value}
         placeholder="输入进行检索"
         notFoundContent={fetching ? <Spin size="small" /> : null}

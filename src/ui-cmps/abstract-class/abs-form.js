@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-06 20:11:26
+ * @Last Modified time: 2019-05-07 17:14:09
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -14,7 +14,7 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { pick } from 'lodash';
+import { pick, omit } from 'lodash';
 
  /**
   * 从对象obj中获取keysStr位置的对象，不存在则返回undefined
@@ -41,9 +41,12 @@ import { observer } from 'mobx-react';
 class IForm extends Component {
   constructor(options) {
     super(options);
+    if (options.formModel) {
+      console.warn('there is formModel whthin options in  constructor')
+    }
     // 如果外层传递了formModel则使用外层的formModel
     this.state = {
-      formModel: options.formModel || new FormModel(options),
+      formModel: options.formModel || new FormModel(omit(options, ['formModel'])),
       status: getKey(options, '_meta.status')
     }
 

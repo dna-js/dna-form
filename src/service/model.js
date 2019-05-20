@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-06 21:11:45
+ * @Last Modified time: 2019-05-20 14:26:29
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -157,7 +157,7 @@ class FormModel {
   @action init(formDefinition) {
     this.outerCtx = formDefinition.outerCtx || {};
     
-    const {fields, regions, _meta } = formDefinition;
+    const {regions, _meta } = formDefinition;
 
     // 创建form
     const createField = (field) => {
@@ -169,37 +169,24 @@ class FormModel {
     // 初始化_meta
     this._meta = Object.assign({}, this._meta, _meta)
     
-    // 只存在fields
-    if (fields && fields.length > 0) {
-      fields.forEach(field => {
-        this.fields.push(createField(field));
+    // 解析regions
+    regions.forEach(region => {
+      let regionFields = [];
+      // 生成fields
+      region.fields.forEach(field => {
+        let fieldIns = createField(field);
+        regionFields.push(fieldIns);
+        this.fields.push(fieldIns);
       });
       
-      this.regions.push(new Region({
-        fields: this.fields, // 引用对象
-        ctx: this.outerCtx,
-        header: {}
-      }));
-    } else {
-      // 解析regions
-      regions.forEach(region => {
-        let regionFields = [];
-        // 生成fields
-        region.fields.forEach(field => {
-          let fieldIns = createField(field);
-          regionFields.push(fieldIns);
-          this.fields.push(fieldIns);
-        });
-        
-        //生成 region
-        let regionDefinition = Object.assign({}, region, {
-          fields: regionFields,
-          ctx: this.outerCtx
-        })
-        
-        this.regions.push(new Region(regionDefinition));
+      //生成 region
+      let regionDefinition = Object.assign({}, region, {
+        fields: regionFields,
+        ctx: this.outerCtx
       })
-    }
+      
+      this.regions.push(new Region(regionDefinition));
+    })
     
     // 生成验证信息
     this.collectValidators();
