@@ -2,7 +2,7 @@
  * @Author: 宋慧武 
  * @Date: 2018-08-27 19:04:38 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:18:38
+ * @Last Modified time: 2019-05-20 14:33:09
  * @Desc select的输入和输出按照antd来
  */
 import React from 'react';
@@ -49,9 +49,13 @@ class FieldSelect extends IField {
     });
   }
   render() {
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
     return (
       <Select {...this.filterProps()} 
         value={this.state.value}
+        defaultActiveFirstOption={false}
         labelInValue
         showSearch={true} 
         allowClear={true}
@@ -60,6 +64,18 @@ class FieldSelect extends IField {
         {this.renderOptions()}
       </Select>
     );
+  }
+
+  // sug的value存在数据形式
+  getText = () => {
+    let {formData, fieldKey} = this.props;
+    let val = formData[fieldKey], value = '';
+    const { dataMap } = this.state;
+
+    if (dataMap && dataMap.length) {
+      value = (dataMap.find(x=>x.key === val)||{}).value;
+    }
+    return value;
   }
 }
  

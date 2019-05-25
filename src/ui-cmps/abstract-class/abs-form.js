@@ -2,7 +2,11 @@
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
  * @Last Modified by: mikey.zhaopeng
+<<<<<<< HEAD
  * @Last Modified time: 2019-04-28 14:24:03
+=======
+ * @Last Modified time: 2019-05-07 17:14:09
+>>>>>>> ref
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -14,7 +18,11 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+<<<<<<< HEAD
 import { pick } from 'lodash';
+=======
+import { pick, omit } from 'lodash';
+>>>>>>> ref
 
  /**
   * 从对象obj中获取keysStr位置的对象，不存在则返回undefined
@@ -38,12 +46,19 @@ import { FormModel } from '../../service/model';
 import { observer } from 'mobx-react';
 
 @observer
-class BaseForm extends Component {
+class IForm extends Component {
   constructor(options) {
     super(options);
+    if (options.formModel) {
+      console.warn('there is formModel whthin options in  constructor')
+    }
     // 如果外层传递了formModel则使用外层的formModel
     this.state = {
+<<<<<<< HEAD
       formModel: new FormModel(options),
+=======
+      formModel: options.formModel || new FormModel(omit(options, ['formModel'])),
+>>>>>>> ref
       status: getKey(options, '_meta.status')
     }
 
@@ -72,6 +87,7 @@ class BaseForm extends Component {
     return {formContext: pick(this.props, ['_meta', '_type'])};
   }
 
+<<<<<<< HEAD
   _derivedFieldProp = (field, index) => {
     const { validationRules, validationResults } = this.state.formModel;
     let itemProps = {
@@ -93,6 +109,8 @@ class BaseForm extends Component {
     return itemProps;
   }
 
+=======
+>>>>>>> ref
   /**
    * 变更某个field的值
    */
@@ -113,12 +131,12 @@ class BaseForm extends Component {
   }
 }
 
-BaseForm.defaultProps = {
+IForm.defaultProps = {
   className: 'dna-abstract-form-layout-flow',
   onFormDataChange: ()=>{}
 };
 
-BaseForm.propTypes = {
+IForm.propTypes = {
   // 点击取消按钮时回调
   buttonCancel: PropTypes.func,
   // formdata 数据更改时触发
@@ -129,4 +147,4 @@ BaseForm.propTypes = {
   deriveServiceModel: PropTypes.func
 };
 
-export {BaseForm as default};
+export {IForm as default};

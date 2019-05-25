@@ -2,9 +2,8 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2019-04-08 16:50:15 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 11:43:13
+ * @Last Modified time: 2019-05-25 13:48:12
  */
-
 
 'use strict';
 
@@ -37,7 +36,7 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      use: ['eslint-loader', 'babel-loader']
+      use: ['babel-loader']
     }, {
       test: /\.(sa|sc|c)ss$/,
       use: [

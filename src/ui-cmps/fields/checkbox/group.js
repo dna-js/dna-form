@@ -2,19 +2,22 @@
  * @Author: 宋慧武 
  * @Date: 2018-08-27 17:24:59 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:02:02
+ * @Last Modified time: 2019-05-25 13:52:40
  */
 
 import React from 'react';
-import AbstractField from '../IField';
+import IField from '../IField';
 import { Checkbox } from 'antd';
 
-export default class FieldCheckboxGroup extends AbstractField {
-  constructor() {
-    super();
+export default class FieldCheckboxGroup extends IField {
+  constructor(options) {
+    super(options);
   }
 
   render() {
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
     const options = this.props.dataMap.map((item) => {
       return {
         ...item,

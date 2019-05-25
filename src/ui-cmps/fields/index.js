@@ -2,9 +2,13 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:45:26 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:24:53
+ * @Last Modified time: 2019-05-25 13:49:38
  * @desc: fields map exports
+ * @Todo:
+ *    [ ]增加对连续性Field的自洽能力
  */
+
+
 import React from "react";
 
 // 抽象组件
@@ -21,9 +25,6 @@ import Cascaser from "./cascader";
 import AsyncCascaser from "./cascader/async-cascader";
 import Radio from "./radio";
 
-// 屎一样的数据混乱业务组件，重点革命推动后端修改
-import LegacyDateRange from './datetime/legacy-datetime-range';
-
 class NullType extends React.Component{
   constructor(options){
     super(options);
@@ -39,7 +40,6 @@ const map = {
   Field_Sug: Sugest,
   Field_Datetime: Datetime,
   Field_RangePicker: RangePicker,
-  Field_LegacyDateRange: LegacyDateRange, // 业务逻辑组件，将要移除
   Field_AsyncSug: AsyncSug, // 异步 select
   Field_Cascaser: Cascaser,
   Field_AsyncCascaser: AsyncCascaser, // 异步级联

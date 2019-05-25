@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-08 17:06:23 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:05:27
+ * @Last Modified time: 2019-05-25 13:52:54
  */
 
 import { DatePicker } from 'antd';
@@ -20,7 +20,10 @@ export default class FieldInput extends IField {
   }
 
   render(){
-    let obj = {value: this.props.value};
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
+    let obj = {value: this.state.value};
     if (this.props._meta.showTime) {
       obj.showTime = true;
     }

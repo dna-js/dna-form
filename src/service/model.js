@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:41:10
+ * @Last Modified time: 2019-05-25 13:53:22
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -157,7 +157,7 @@ class FormModel {
   @action init(formDefinition) {
     this.outerCtx = formDefinition.outerCtx || {};
     
-    const {regions=[], _meta } = formDefinition;
+    const {regions, _meta } = formDefinition;
 
     // 创建form
     const createField = (field) => {

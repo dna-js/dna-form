@@ -2,7 +2,11 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
+<<<<<<< HEAD
  * @Last Modified time: 2019-04-28 14:24:08
+=======
+ * @Last Modified time: 2019-05-05 17:07:03
+>>>>>>> ref
  * @desc： 基础form组件
  */
 
@@ -16,15 +20,10 @@ import { Form } from "antd";
 const FormItem = Form.Item;
 import './index.scss';
 
-
 @observer
 class DnaForm extends AbsForm {
   constructor(options){
     super(options);
-  }
-
-  componentDidMount(){
-    this.tryFetchData();
   }
 
   render() {
@@ -57,10 +56,18 @@ class DnaForm extends AbsForm {
       let Cmp = Fields.getDefFromField(x);
       return <FormItem
             {...this._derivedFieldProp(x, index)}
+<<<<<<< HEAD
           >
             <Cmp {...x} 
               Field = {x}
               fieldChange={this.props.setFieldValue} 
+=======
+            className={x._type}
+          >
+            <Cmp {...x} 
+              Field = {x}
+              fieldChange={this.setFieldValue} 
+>>>>>>> ref
               value={localFormData[x.fieldKey]} 
               formCtx={this.props.outerCtx}
               formData={formData}
@@ -81,6 +88,7 @@ class DnaForm extends AbsForm {
     // 如果 验证规则中存在必填
     if ((validationRules[field.fieldKey]||[]).find(field => field.required)) {
       itemProps.required = true;
+<<<<<<< HEAD
     }
     
     // 验证失败msg
@@ -99,11 +107,17 @@ class DnaForm extends AbsForm {
     // 非编辑态，不需要获取表单数据
     if (this.state.status !== 'edit') {
       return;
+=======
+>>>>>>> ref
     }
-    // 没有id，也不获取
-    if (!this.props.id) {
-      return;
+    
+    // 验证失败msg
+    if (validationResults[field.fieldKey]) {
+      itemProps.help = validationResults[field.fieldKey][0].message;
+      itemProps.validateStatus = 'error';
     }
+
+    return itemProps;
   }
 }
 
