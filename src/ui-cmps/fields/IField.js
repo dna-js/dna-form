@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-27 17:57:35 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-18 11:09:27
+ * @Last Modified time: 2019-05-25 13:57:21
  * @desc 抽象类组件，对field组件的通用行为进行统一管理
  * 所有field组件都是受控组件
  * todo: [ ]将数据源的刷新发到model中去
@@ -13,22 +13,9 @@ import { pick } from 'lodash';
 import { observer } from 'mobx-react';
 
 @observer
-export default class AbstractField extends Component {
+export default class IField extends Component {
   constructor(options) {
     super(options);
-  }
-
-  state = {
-    dataMap: []
-  }
-
-  // value的属性都是非受控的
-  static getDerivedStateFromProps(props, state){
-    return {
-      value: props.value,
-      dataMap: props.localDataMap,
-      _meta: props._meta
-    };
   }
 
   fieldChange = (value)=> {
@@ -82,5 +69,15 @@ export default class AbstractField extends Component {
     }
 
     return value;
+  }
+
+  // 渲染纯文本
+  renderPureText = () => {
+    return <div className='ant-form-item-control-wrapper'>{this.getText()}</div>;
+  }
+
+  getText = () => {
+    let {formData, fieldKey} = this.props;
+    return formData[fieldKey];
   }
 }

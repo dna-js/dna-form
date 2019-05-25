@@ -2,12 +2,12 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 17:40:10 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-18 11:56:17
+ * @Last Modified time: 2019-05-05 12:38:49
  * @Desc: 级联选择
  */
 
 import React from "react";
-import AbstractField from "../IField";
+import IField from "../IField";
 import { Cascader } from 'antd';
 
 const options = [];
@@ -17,7 +17,7 @@ function onChange(value) {
 }
 
 
-export default class FieldInput extends AbstractField {
+export default class FieldInput extends IField {
   constructor(options){
     super(options);
   }

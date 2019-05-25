@@ -1,22 +1,25 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-01-03 16:29:41
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-25 14:01:23
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
-import AbstractField from "../IField";
+import IField from "../IField";
 import { Radio } from 'antd';
 const RadioGroup = Radio.Group;
 
-export default class FieldRadio extends AbstractField {
+export default class FieldRadio extends IField {
   constructor(options){
     super(options);
   }
 
   render(){
-    return <RadioGroup {...this.filterProps()} value={this.state.value}>
+    if (this.props._meta.status === 'detail') {
+      return this.renderPureText()
+    }
+    return <RadioGroup {...this.filterProps()} value={this.props.value}>
       {
         this.props.dataMap.map((item) => <Radio value={item.key}>{item.value}</Radio>)
       }
