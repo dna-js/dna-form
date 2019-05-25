@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 14:18:14 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-04-02 17:02:53
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-25 13:06:52
  * @Desc: 异步搜索sug, input变化触发搜索引起dataMap发生变化
  */
 import React from "react";
@@ -31,7 +31,7 @@ export default class AsyncSugest extends Sugest {
   }
 
   render() {
-    const { fetching, dataMap } = this.state;
+    const { fetching} = this.state;
     return (
       <Select
         {...this.filterProps()}
@@ -45,7 +45,7 @@ export default class AsyncSugest extends Sugest {
         onSearch={this.fetchOptions}
         style={{ width: '100%' }}
       >
-        {dataMap.map(d => <Option key={d.key}>{d.value}</Option>)}
+        {this.props.localDataMap.map(d => <Option key={d.key}>{d.value}</Option>)}
       </Select>
     );
   }

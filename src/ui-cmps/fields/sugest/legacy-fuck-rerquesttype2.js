@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2019-01-13 15:54:03 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-01-29 20:33:45
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-25 13:08:06
  * @Desc: 屎一样的数据设计之 服务台工单 二级请求类型
  */
 
@@ -30,7 +30,7 @@ class FuckRuqustType extends Sugest {
   render() {
     return (
       <Select {...this.filterProps()} 
-          value={this.state.value}
+          value={this.props.value}
           labelInValue
           showSearch={true} 
           allowClear={true}

@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:45:26 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-18 11:55:38
+ * @Last Modified time: 2019-05-25 13:07:38
  * @desc: fields map exports
  */
 import React from "react";
@@ -25,8 +25,6 @@ import Radio from "./radio";
 import LegacyDateRange from './datetime/legacy-datetime-range';
 import FuckRuqustType from './sugest/legacy-fuck-requesttype';
 import FuckRuqustType2 from './sugest/legacy-fuck-rerquesttype2';
-import FuckLevelfourcode from './sugest/legacy-fuck-levelfourcode';
-import FuckQestion from './cascader/legacy-fuck-question';
 
 class NullType extends React.Component{
   constructor(options){
@@ -49,8 +47,6 @@ const map = {
   Field_AsyncSug: AsyncSug, // 异步 select
   Field_Cascaser: Cascaser,
   Field_AsyncCascaser: AsyncCascaser, // 异步级联
-  Field_FuckQestion: FuckQestion, // 业务组件： 服务台工单中的问题分类
-  Field_FuckLevelfourcode: FuckLevelfourcode, // 业务组件： 问题分类二组件
   Field_Radio: Radio,
 };
 

@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-03-11 18:25:32
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-25 13:05:44
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
@@ -20,7 +20,7 @@ export default class FieldInput extends AbstractField {
     const {attr = {}} =this.props._meta;
     return <Input 
       {...this.filterProps()} 
-      {...attr} value={this.state.value}
+      {...attr} value={this.props.value}
       style={attr.width?{width:attr.width}:null}
       placeholder = {this.props._meta.placeholder}
     />;

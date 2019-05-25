@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-01-03 16:29:41
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-25 13:05:54
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
@@ -16,7 +16,7 @@ export default class FieldRadio extends AbstractField {
   }
 
   render(){
-    return <RadioGroup {...this.filterProps()} value={this.state.value}>
+    return <RadioGroup {...this.filterProps()} value={this.props.value}>
       {
         this.props.dataMap.map((item) => <Radio value={item.key}>{item.value}</Radio>)
       }

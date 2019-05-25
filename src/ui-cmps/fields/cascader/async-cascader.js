@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 17:40:10 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-08 17:56:27
+ * @Last Modified time: 2019-05-25 12:58:58
  * @Desc: 异步级联选择, 业务逻辑较重，慎重开发
  */
 
@@ -42,14 +42,10 @@ export default class FieldCascader extends AbstractField {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    // 收集级联数据
-    return {
-      value: derivingValueUnderCascaderKeys(props),
-      dataMap: props.localDataMap,
-      _meta: props._meta
-    };
+  componentWillReceiveProps(nextProps) {
+    this.setState({value: derivingValueUnderCascaderKeys(nextProps)})
   }
+
   // 不可删除，覆盖原始load datamap的逻辑
   componentDidMount() {}
 
@@ -59,7 +55,7 @@ export default class FieldCascader extends AbstractField {
     if (this.props._meta.enable === false) {
       let value = this.state.value;
       (async ()=>{
-        let children = this.state.dataMap;
+        let children = this.props.localDataMap;
         for(let i = 0; i < value.length - 1; i++) {
           if (!children) {
             return;
