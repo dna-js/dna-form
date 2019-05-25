@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-21 17:01:52 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-06 20:37:44
+ * @Last Modified time: 2019-05-25 23:33:48
  * @Desc: field 之间的联动action 模块
  */
 
@@ -49,16 +49,15 @@ const xactionDealMap = {
 
   // 刷新target的数据源
   resetDataMap: async function (target, dataModel) {
-    dataModel.reloadingDataMap(target)
+    dataModel.reloadingDataMap(target);
     // 清空值，重获数据源都伴随着清空值(只有编辑态时才触发清空)
-    // TODO: bug，对于散射生成的值需要清空所有散射
     if (target._meta.enable === true && target._meta.status !== 'detail') {
       let data = {};
       let {cascaderKeys} = target._meta;
       if (cascaderKeys) {
-        cascaderKeys.forEach(key => {data[key] = ''})
+        cascaderKeys.forEach(key => {data[key] = ''});
       } else {
-        data[target.fieldKey] = ''
+        data[target.fieldKey] = '';
       };
       
       dataModel.setFormData(data);
