@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-04-24 21:23:27
+ * @Last Modified time: 2019-05-25 13:41:10
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -23,7 +23,6 @@ class Field {
   @observable formDataLegal = false; // formdata 是否通过了验证，是合法的数据
   
   // === 业务数据 ====
-  @observable _id;
   @observable dataMap = []; // 原始值
   @observable localDataMap = []; // 转化之后的值
   @observable _meta = {
@@ -37,6 +36,7 @@ class Field {
   @observable fieldName;
   @observable fieldKey;
   @observable defaultValue;
+  @observable _id;
   @observable cache = {};
 
   setValue = () => {}
@@ -44,7 +44,6 @@ class Field {
   constructor(options) {
     this.init(options);
     when(() => this.localDataMap.length > 0, () => {
-      // 默认选中第一个
       if (this._meta.firstSelect) {
         this.setValue(this.localDataMap[0].key, this.localDataMap[0])
       }
@@ -78,6 +77,14 @@ class Field {
     this._meta.enable = false;
   }
 
+  @action detail = () => {
+    this._meta.status = 'detail';
+  }
+  
+  @action antiDetail = (status = 'create') => {
+    this._meta.status = 'status';
+  }
+
   // 缓存操作
   @action setCache = (cache = {}) => {
     Object.assign(this.cache, cache)
@@ -91,7 +98,6 @@ class Field {
     return pick(this.cache, keys)
   }
 }
-
 
 // form区块，只负责展示区块，不包含表单功能
 // field的格式化由form完成
@@ -151,7 +157,7 @@ class FormModel {
   @action init(formDefinition) {
     this.outerCtx = formDefinition.outerCtx || {};
     
-    const {fields, regions, _meta } = formDefinition;
+    const {regions=[], _meta } = formDefinition;
 
     // 创建form
     const createField = (field) => {
@@ -163,37 +169,24 @@ class FormModel {
     // 初始化_meta
     this._meta = Object.assign({}, this._meta, _meta)
     
-    // 只存在fields
-    if (fields && fields.length > 0) {
-      fields.forEach(field => {
-        this.fields.push(createField(field));
+    // 解析regions
+    regions.forEach(region => {
+      let regionFields = [];
+      // 生成fields
+      region.fields.forEach(field => {
+        let fieldIns = createField(field);
+        regionFields.push(fieldIns);
+        this.fields.push(fieldIns);
       });
       
-      this.regions.push(new Region({
-        fields: this.fields, // 引用对象
-        ctx: this.outerCtx,
-        header: {}
-      }));
-    } else {
-      // 解析regions
-      regions.forEach(region => {
-        let regionFields = [];
-        // 生成fields
-        region.fields.forEach(field => {
-          let fieldIns = createField(field);
-          regionFields.push(fieldIns);
-          this.fields.push(fieldIns);
-        });
-        
-        //生成 region
-        let regionDefinition = Object.assign({}, region, {
-          fields: regionFields,
-          ctx: this.outerCtx
-        })
-        
-        this.regions.push(new Region(regionDefinition));
+      //生成 region
+      let regionDefinition = Object.assign({}, region, {
+        fields: regionFields,
+        ctx: this.outerCtx
       })
-    }
+      
+      this.regions.push(new Region(regionDefinition));
+    })
     
     // 生成验证信息
     this.collectValidators();
@@ -257,7 +250,8 @@ class FormModel {
       let target = Object.assign({}, this.fields.find(x => {
         return x.fieldKey === key || (x._meta.cascaderKeys && x._meta.cascaderKeys.indexOf(key) > -1)
       }), {fieldKey: key});
-      target && this.setFieldValue(target, state[key], state[key]);
+      
+      this.setFieldValue(target, state[key], state[key]);
     })
   }
   
@@ -328,28 +322,34 @@ class FormModel {
     field = this.fields.find(x => x._id === field.fieldKey);
     
     if (!field) {return;}
-    let { dataMap } = field;
+    const { dataMap, _meta } = field;
     const { formData, outerCtx } = this;
-    // mobx 会有异常检查
-    dataMap = dataMap.slice();
     // 如果原始数据源中存在url，则请求
-    if (typeof dataMap[0] == 'string') {
+    if (dataMap.length > 0 && (typeof dataMap[0] == 'string')) {
+      // 排除空值
+      let tmp = Object.assign({}, formData, ctx), rctx={};
+      Object.keys(tmp).forEach(key => {
+        if (![undefined, ''].includes(tmp[key])) {
+          rctx[key] = tmp[key];
+        }
+      })
       let rs = ctxReplace.getUrl({
         urlObj: dataMap[0],
-        ctx: Object.assign({}, formData, ctx),
+        ctx: rctx,
         pctx: outerCtx
       });
-      Ctx.silentRequest.get(rs.url).then(res => {
-        // 兼容， 异步级联时对map有特殊要求
-        if (field._type === 'Field_AsyncCascaser' || field._type === 'Field_FuckQestion') {
-          res = res.map(x => {
-            return {
-              value: x.key,
-              label: x.value,
-              isLeaf: false
-            }
+      // TODO: 优化此开关结构
+      if (_meta.dataMapUrlStrictMatch) {
+        if (!rs.fillSuccess) {
+          runInAction(() => {
+            field.localDataMap = [];
+            callback && callback([]);
           })
+          return
         }
+      }
+
+      Ctx.silentRequest.get(rs.url).then(res => {
         // 如果字段中存在对数据源格式化的方法，则调用
         if (this.extentions.datasourceFormat[field.fieldKey]) {
           res = this.extentions.datasourceFormat[field.fieldKey](res);
@@ -375,22 +375,16 @@ class FormModel {
       callback && callback(field.localDataMap||[]);
     }
   }
-  
-  /**
-   * 强行将所有field置为不可用
-   */
-  fieldsForceDisable = () => {
+
+  transfer2Detail = () => {
     this.fields.forEach(x => {
-      x.disable()
+      x.detail()
     })
   }
-  
-  /**
-   * 强行将所有field置为可用
-   */
-  fieldsForceEnable = () => {
+
+  transfer2AntiDetail = (status) => {
     this.fields.forEach(x => {
-      x.enable()
+      x.antiDetail(status)
     })
   }
   
@@ -442,8 +436,6 @@ class FormModel {
         }, this);
       }
     }
-
-
   }
 }
 

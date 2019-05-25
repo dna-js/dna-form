@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:45:26 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:07:38
+ * @Last Modified time: 2019-05-25 13:24:53
  * @desc: fields map exports
  */
 import React from "react";
@@ -23,8 +23,6 @@ import Radio from "./radio";
 
 // 屎一样的数据混乱业务组件，重点革命推动后端修改
 import LegacyDateRange from './datetime/legacy-datetime-range';
-import FuckRuqustType from './sugest/legacy-fuck-requesttype';
-import FuckRuqustType2 from './sugest/legacy-fuck-rerquesttype2';
 
 class NullType extends React.Component{
   constructor(options){
@@ -42,8 +40,6 @@ const map = {
   Field_Datetime: Datetime,
   Field_RangePicker: RangePicker,
   Field_LegacyDateRange: LegacyDateRange, // 业务逻辑组件，将要移除
-  Field_FuckRuqustType: FuckRuqustType,// 业务过滤组件：一级问题分类
-  Field_FuckRuqustType2: FuckRuqustType2,// 业务过滤组件：二级问题分类
   Field_AsyncSug: AsyncSug, // 异步 select
   Field_Cascaser: Cascaser,
   Field_AsyncCascaser: AsyncCascaser, // 异步级联
