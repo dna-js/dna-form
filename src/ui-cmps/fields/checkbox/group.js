@@ -2,7 +2,7 @@
  * @Author: 宋慧武 
  * @Date: 2018-08-27 17:24:59 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 14:29:20
+ * @Last Modified time: 2019-05-25 14:03:00
  */
 
 import React from 'react';
@@ -14,14 +14,12 @@ export default class FieldCheckboxGroup extends IField {
     super(options);
   }
 
-  static getDerivedStateFromProps(props, state){
-    let val = props.value || undefined;
+  getValueFromProps = ()=>{
+    let val = this.props.value || undefined;
     if (typeof val == 'string') {
       val = val.split(',');
     }
-    return {
-      value: val
-    };
+    return val;
   }
 
   render() {
@@ -36,7 +34,7 @@ export default class FieldCheckboxGroup extends IField {
     });
 
     return (
-      <Checkbox.Group options={options} {...this.filterProps()} value={this.state.value}/>
+      <Checkbox.Group options={options} {...this.filterProps()} value={this.getValueFromProps()}/>
     );
   }
 }

@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-07 17:14:09
+ * @Last Modified time: 2019-05-25 22:53:42
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -42,8 +42,9 @@ class IForm extends Component {
   constructor(options) {
     super(options);
     if (options.formModel) {
-      console.warn('there is formModel whthin options in  constructor')
+      console.warn('there is formModel whthin options in  constructor');
     }
+
     // 如果外层传递了formModel则使用外层的formModel
     this.state = {
       formModel: options.formModel || new FormModel(omit(options, ['formModel'])),
@@ -56,15 +57,15 @@ class IForm extends Component {
     }
 
     this.props.onFormDataChange(this.state.formModel.formData);
+
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.formModel) {
-      return {
-        formModel: props.formModel
-      }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.formModel) {
+      this.setState({
+        formModel: nextProps.formModel
+      });
     }
-    return {};
   }
 
   render() {

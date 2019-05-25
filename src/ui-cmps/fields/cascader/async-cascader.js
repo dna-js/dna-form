@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 17:40:10 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-07 17:03:32
+ * @Last Modified time: 2019-05-25 14:05:41
  * @Desc: 异步级联选择, 业务逻辑较重，慎重开发
  */
 
@@ -45,14 +45,9 @@ export default class FieldCascader extends IField {
       cascaderKeys: this.props._meta.cascaderKeys
     };
   }
-
-  static getDerivedStateFromProps(props, state) {
-    // 收集级联数据
-    return {
-      value: derivingValueUnderCascaderKeys(props),
-      dataMap: props.localDataMap,
-      _meta: props._meta
-    };
+  
+  componentWillReceiveProps(nextProps){
+    this.setState({value: derivingValueUnderCascaderKeys(nextProps)})
   }
   // 不可删除，覆盖原始load datamap的逻辑
   componentDidMount() {}
@@ -63,7 +58,7 @@ export default class FieldCascader extends IField {
     if (this.props._meta.status === 'detail') {
       let value = this.state.value;
       (async ()=>{
-        let children = this.state.dataMap;
+        let children = this.props.localDataMap;
         for(let i = 0; i < value.length - 1; i++) {
           if (!children) {
             return;
@@ -110,7 +105,7 @@ export default class FieldCascader extends IField {
         runInAction(async ()=>{
           node.children = res;
           node.loading = false;
-          this.setState({dataMap: [...this.state.dataMap]}, ()=>{resolve(node.children)});
+          this.setState({dataMap: [...this.props.localDataMap]}, ()=>{resolve(node.children)});
         })
       })
     })
@@ -149,7 +144,7 @@ export default class FieldCascader extends IField {
   render(){
     return <Cascader
       {...this.filterProps()}
-      options={this.state.dataMap}
+      options={this.state.localDataMap}
       loadData={this.loadData}
       placeholder={'点击筛选'}
       expandTrigger='hover'

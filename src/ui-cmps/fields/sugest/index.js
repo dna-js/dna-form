@@ -2,7 +2,7 @@
  * @Author: 宋慧武 
  * @Date: 2018-08-27 19:04:38 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-20 14:33:09
+ * @Last Modified time: 2019-05-25 14:00:40
  * @Desc select的输入和输出按照antd来
  */
 import React from 'react';
@@ -17,17 +17,13 @@ class FieldSelect extends IField {
     super(options);
   }
 
-  static getDerivedStateFromProps(props, state){
-    let val = props.value || undefined;
+  getValueFromProps(){
+    // 计算value
+    let val = this.props.value || undefined;
     if (typeof val == 'string') {
       val = {key: val};
     }
-   
-    return {
-      value: val,
-      dataMap: props.localDataMap,
-      _meta: props._meta
-    };
+    return val;
   }
 
   fieldChange = (originValue)=>{
@@ -42,7 +38,7 @@ class FieldSelect extends IField {
   
   renderOptions = () => {
     // 后端可能返回空key的数据，antd不支持，需要过滤掉
-    return this.state.dataMap.filter(x => {
+    return this.props.localDataMap.filter(x => {
       return x.key !== '';
     }).map(ele => {
       return <Option key={ele.key}>{ele.value}</Option>;
@@ -52,14 +48,15 @@ class FieldSelect extends IField {
     if (this.props._meta.status === 'detail') {
       return this.renderPureText()
     }
+
     return (
       <Select {...this.filterProps()} 
-        value={this.state.value}
-        defaultActiveFirstOption={false}
-        labelInValue
-        showSearch={true} 
-        allowClear={true}
-        optionFilterProp="children"
+          value={this.getValueFromProps()}
+          defaultActiveFirstOption={false}
+          labelInValue
+          showSearch={true} 
+          allowClear={true}
+          optionFilterProp="children"
         >
         {this.renderOptions()}
       </Select>
@@ -70,10 +67,10 @@ class FieldSelect extends IField {
   getText = () => {
     let {formData, fieldKey} = this.props;
     let val = formData[fieldKey], value = '';
-    const { dataMap } = this.state;
+    const { localDataMap } = this.props;
 
-    if (dataMap && dataMap.length) {
-      value = (dataMap.find(x=>x.key === val)||{}).value;
+    if (localDataMap && localDataMap.length) {
+      value = (localDataMap.find(x=>x.key === val)||{}).value;
     }
     return value;
   }

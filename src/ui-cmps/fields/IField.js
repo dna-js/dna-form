@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-27 17:57:35 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 14:50:59
+ * @Last Modified time: 2019-05-25 13:57:21
  * @desc 抽象类组件，对field组件的通用行为进行统一管理
  * 所有field组件都是受控组件
  * todo: [ ]将数据源的刷新发到model中去
@@ -16,19 +16,6 @@ import { observer } from 'mobx-react';
 export default class IField extends Component {
   constructor(options) {
     super(options);
-  }
-
-  state = {
-    dataMap: []
-  }
-
-  // value的属性都是非受控的
-  static getDerivedStateFromProps(props, state){
-    return {
-      value: props.value,
-      dataMap: props.localDataMap,
-      _meta: props._meta
-    };
   }
 
   fieldChange = (value)=> {

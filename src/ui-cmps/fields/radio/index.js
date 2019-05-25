@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 14:30:57
+ * @Last Modified time: 2019-05-25 14:01:23
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
@@ -19,7 +19,7 @@ export default class FieldRadio extends IField {
     if (this.props._meta.status === 'detail') {
       return this.renderPureText()
     }
-    return <RadioGroup {...this.filterProps()} value={this.state.value}>
+    return <RadioGroup {...this.filterProps()} value={this.props.value}>
       {
         this.props.dataMap.map((item) => <Radio value={item.key}>{item.value}</Radio>)
       }

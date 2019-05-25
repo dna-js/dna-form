@@ -2,7 +2,7 @@
  * @Author: 宋慧武 
  * @Date: 2018-08-27 17:24:59 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-05 14:29:11
+ * @Last Modified time: 2019-05-25 14:01:55
  */
 
 import React from 'react';
@@ -19,7 +19,7 @@ export default class FieldCheckbox extends IField {
       return this.renderPureText()
     }
     return (
-      <Checkbox {...this.filterProps()} value={this.state.value} >{this.props.dataMap[0].value}</Checkbox>
+      <Checkbox {...this.filterProps()} value={this.props.value} >{this.props.dataMap[0].value}</Checkbox>
     );
   }
 }
