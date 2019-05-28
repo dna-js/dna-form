@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-26 01:39:29
+ * @Last Modified by: magmaliang@gmail.com
+ * @Last Modified time: 2019-05-28 14:59:40
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -323,7 +323,7 @@ class FormModel {
     field = this.fields.find(x => x._id === field.fieldKey);
     
     if (!field) {return;}
-    const { dataMap, _meta } = field;
+    let { dataMap, _meta } = field;
     const { formData, outerCtx } = this;
     // mobx 会有异常检查
     dataMap = dataMap.slice();
@@ -403,8 +403,6 @@ class FormModel {
     if (this.formData[fieldKey] == value) {
       return;
     }
-    
-    // console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
     
     this.formData[fieldKey] = value;
     this.localFormData[fieldKey] = localValue;

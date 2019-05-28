@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-26 01:40:37
+ * @Last Modified by: magmaliang@gmail.com
+ * @Last Modified time: 2019-05-28 15:50:33
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -46,30 +46,22 @@ class IForm extends Component {
     }
 
     // 如果外层传递了formModel则使用外层的formModel
-    this.state = {
-      formModel: options.formModel || new FormModel(omit(options, ['formModel'])),
-      status: getKey(options, '_meta.status')
-    }
+    this.state = {};
+    this.createFormModel(options);
+    this.props.onFormDataChange(this.state.formModel.formData);
+  }
 
+  createFormModel(options){
+    this.state.formModel = new FormModel(omit(options, ['formModel']));
     // 暴露数据实例
     if (this.props.deriveServiceModel) {
       this.props.deriveServiceModel(this.state.formModel);
     }
-
-    this.props.onFormDataChange(this.state.formModel.formData);
-
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.formModel) {
-      this.setState({
-        formModel: nextProps.formModel
-      });
-    }
-  }
-
-  render() {
-    return null;
+    this.createFormModel(nextProps);
+    this.setState({});
   }
 
   getFormMeta() {

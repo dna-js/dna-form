@@ -1,10 +1,11 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 14:01:23
+ * @Last Modified by: magmaliang@gmail.com
+ * @Last Modified time: 2019-05-28 15:29:04
  * @Desc: Field_Input field, write this for a sample
  */
+
 import React from "react";
 import IField from "../IField";
 import { Radio } from 'antd';
@@ -21,7 +22,7 @@ export default class FieldRadio extends IField {
     }
     return <RadioGroup {...this.filterProps()} value={this.props.value}>
       {
-        this.props.dataMap.map((item) => <Radio value={item.key}>{item.value}</Radio>)
+        this.props.localDataMap.map((item) => <Radio key={item.key} value={item.key}>{item.value}</Radio>)
       }
       </RadioGroup>
     

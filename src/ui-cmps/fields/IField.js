@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-27 17:57:35 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 13:57:21
+ * @Last Modified by: magmaliang@gmail.com
+ * @Last Modified time: 2019-05-28 14:44:35
  * @desc 抽象类组件，对field组件的通用行为进行统一管理
  * 所有field组件都是受控组件
  * todo: [ ]将数据源的刷新发到model中去

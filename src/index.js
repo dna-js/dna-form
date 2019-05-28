@@ -1,11 +1,11 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-07 17:03:39
+ * @Last Modified by: magmaliang@gmail.com
+ * @Last Modified time: 2019-05-28 12:25:38
  * @desc：form 输出物
  */
-import IForm from './ui-cmps/abstract-class/abs-form';
+import IForm from './ui-cmps/_I-cmp/Iform';
 
 import DnaBasicForm from './ui-cmps/basic-form';
 import { FormModel } from './service/model';

@@ -1,27 +1,24 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
- * @Last Modified by: mikey.zhaopeng
-<<<<<<< HEAD
- * @Last Modified time: 2019-04-28 14:24:08
-=======
- * @Last Modified time: 2019-05-26 01:39:43
->>>>>>> demotion_base_on_ref
+ * @Last Modified by: magmaliang@gmail.com
+ * @Last Modified time: 2019-05-28 15:25:12
  * @desc： 基础form组件
  */
 
 import React from 'react';
 import PropTypes from "prop-types";
 import { pick } from 'lodash';
-import AbsForm from '../abstract-class/abs-form';
+import IForm from '../_I-cmp/Iform';
 import { observer } from 'mobx-react';
 import Fields from "../fields";
 import { Form } from "antd";
 const FormItem = Form.Item;
+
 import './index.scss';
 
 @observer
-class DnaForm extends AbsForm {
+class DnaForm extends IForm {
   constructor(options){
     super(options);
   }
@@ -81,27 +78,6 @@ class DnaForm extends AbsForm {
     // 如果 验证规则中存在必填
     if ((validationRules[field.fieldKey]||[]).find(field => field.required)) {
       itemProps.required = true;
-<<<<<<< HEAD
-    }
-    
-    // 验证失败msg
-    if (validationResults[field.fieldKey]) {
-      itemProps.help = validationResults[field.fieldKey][0].message;
-      itemProps.validateStatus = 'error';
-    }
-
-    return itemProps;
-  }
-
-  /**
-   * 表单处于编辑状态及传入了数据的id，则开始获取表单的数据，并入到field的default value中
-   */
-  tryFetchData(){
-    // 非编辑态，不需要获取表单数据
-    if (this.state.status !== 'edit') {
-      return;
-=======
->>>>>>> demotion_base_on_ref
     }
     
     // 验证失败msg
