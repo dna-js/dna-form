@@ -1,6 +1,6 @@
 {
   "name": "@dna-js/dna-form",
-  "version": "0.2.0",
+  "version": "0.1.37",
   "description": "@dna-js/dna-form",
   "main": "./src/index.js",
   "scripts": {
@@ -23,12 +23,7 @@
     "classnames": "^2.2.6",
     "ctx-replace": "^1.0.1",
     "history": "^4.7.2",
-    "lodash": "^4.17.11",
-    "mobx": "5.5.0",
-    "mobx-react": "^5.4.3",
-    "prop-types": "^15.6.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

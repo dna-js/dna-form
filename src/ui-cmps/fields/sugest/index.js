@@ -13,8 +13,8 @@ import { observer } from 'mobx-react';
 
 @observer
 class FieldSelect extends IField {
-  constructor(options) {
-    super(options);
+  constructor() {
+    super();
   }
 
   getValueFromProps(){

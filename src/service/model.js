@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-08-01 17:56:25
+ * @Last Modified time: 2019-08-01 18:32:47
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -24,7 +24,6 @@ class Field {
   @observable formDataLegal = false; // formdata 是否通过了验证，是合法的数据
   
   // === 业务数据 ====
-  @observable _id;
   @observable dataMap = []; // 原始值
   @observable localDataMap = []; // 转化之后的值
   @observable _meta = {
@@ -38,6 +37,7 @@ class Field {
   @observable fieldName;
   @observable fieldKey;
   @observable defaultValue;
+  @observable _id;
   @observable cache = {};
 
   setValue = () => {}
@@ -45,7 +45,6 @@ class Field {
   constructor(options) {
     this.init(options);
     when(() => this.localDataMap.length > 0, () => {
-      // 默认选中第一个
       if (this._meta.firstSelect) {
         this.setValue(this.localDataMap[0].key, this.localDataMap[0])
       }
@@ -438,8 +437,6 @@ class FormModel {
         }, this);
       }
     }
-
-
   }
 }
 

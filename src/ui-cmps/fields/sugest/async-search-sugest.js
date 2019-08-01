@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 14:18:14 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-08-01 18:08:40
+ * @Last Modified time: 2019-08-01 18:34:43
  * @Desc: 异步搜索sug, input变化触发搜索引起dataMap发生变化
  */
 import React from "react";
@@ -30,7 +30,7 @@ export default class AsyncSugest extends Sugest {
   }
 
   render() {
-    // const { fetching } = this.state;
+    const { fetching } = this.state;
     return (
       <Select
         {...this.filterProps()}
@@ -40,7 +40,7 @@ export default class AsyncSugest extends Sugest {
         defaultActiveFirstOption={false}
         value={this.getValueFromProps()}
         placeholder="输入进行检索"
-        // notFoundContent={fetching ? <Spin size="small" /> : null}
+        notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
         onSearch={this.fetchOptions}
         style={{ width: '100%' }}

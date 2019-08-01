@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com
  * @Date: 2018-11-08 11:15:24
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-26 01:40:37
+ * @Last Modified by: lianglongfei001@lianjia.com
+ * @Last Modified time: 2019-08-01 18:31:21
  * @Desc: base form， 处理form的通用逻辑:
  *        [1] 生成数据model
  *        [2] 生成Field
@@ -76,6 +76,27 @@ class IForm extends Component {
     return {formContext: pick(this.props, ['_meta', '_type'])};
   }
 
+  _derivedFieldProp = (field, index) => {
+    const { validationRules, validationResults } = this.state.formModel;
+    let itemProps = {
+      label: field.fieldName,
+      key: index
+    };
+
+    // 如果 验证规则中存在必填
+    if ((validationRules[field.fieldKey]||[]).find(field => field.required)) {
+      itemProps.required = true;
+    }
+    
+    // 验证失败msg
+    if (validationResults[field.fieldKey]) {
+      itemProps.help = validationResults[field.fieldKey][0].message;
+      itemProps.validateStatus = 'error';
+    }
+
+    return itemProps;
+  }
+  
   /**
    * 变更某个field的值
    */

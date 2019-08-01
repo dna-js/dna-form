@@ -2,7 +2,6 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 14:01:30
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";

@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-12 17:40:10 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 14:05:41
+ * @Last Modified by: lianglongfei001@lianjia.com
+ * @Last Modified time: 2019-08-01 18:31:50
  * @Desc: 异步级联选择, 业务逻辑较重，慎重开发
  */
 
@@ -45,10 +45,11 @@ export default class FieldCascader extends IField {
       cascaderKeys: this.props._meta.cascaderKeys
     };
   }
-  
-  componentWillReceiveProps(nextProps){
+
+  componentWillReceiveProps(nextProps) {
     this.setState({value: derivingValueUnderCascaderKeys(nextProps)})
   }
+
   // 不可删除，覆盖原始load datamap的逻辑
   componentDidMount() {}
 

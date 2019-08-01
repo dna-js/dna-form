@@ -1,8 +1,8 @@
 /*
  * @Author: 宋慧武 
  * @Date: 2018-08-27 17:24:59 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 14:03:00
+ * @Last Modified by: lianglongfei001@lianjia.com
+ * @Last Modified time: 2019-08-01 18:32:03
  */
 
 import React from 'react';
@@ -12,14 +12,6 @@ import { Checkbox } from 'antd';
 export default class FieldCheckboxGroup extends IField {
   constructor(options) {
     super(options);
-  }
-
-  getValueFromProps = ()=>{
-    let val = this.props.value || undefined;
-    if (typeof val == 'string') {
-      val = val.split(',');
-    }
-    return val;
   }
 
   render() {
@@ -33,8 +25,14 @@ export default class FieldCheckboxGroup extends IField {
       };
     });
 
+    // 计算value
+    let val = this.props.value || undefined;
+    if (typeof val == 'string') {
+      val = val.split(',');
+    }
+
     return (
-      <Checkbox.Group options={options} {...this.filterProps()} value={this.getValueFromProps()}/>
+      <Checkbox.Group options={options} {...this.filterProps()} value={val}/>
     );
   }
 }
