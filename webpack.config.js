@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2019-04-08 16:50:15 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-08-01 18:29:22
+ * @Last Modified time: 2019-08-01 18:38:02
  */
 
 'use strict';
@@ -48,7 +48,7 @@ module.exports = {
   },
   externals: [
     function(context, request, callback) {
-      if (/^(react)|(moment)|(antd)|(lodash)|(mobx$)/i.test(request)){
+      if (/^(react)|(moment)|(antd)|(lodash)|(mobx)/i.test(request)){
         return callback(null, 'commonjs ' + request);
       }
       callback();

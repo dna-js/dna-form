@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-08-01 18:32:47
+ * @Last Modified time: 2019-08-01 22:19:17
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
@@ -323,7 +323,7 @@ class FormModel {
     field = this.fields.find(x => x._id === field.fieldKey);
     
     if (!field) {return;}
-    const { dataMap, _meta } = field;
+    let { dataMap, _meta } = field;
     const { formData, outerCtx } = this;
     // mobx 会有异常检查
     dataMap = dataMap.slice();

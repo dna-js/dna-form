@@ -2,13 +2,12 @@
  * @Author: magmaliang@gmail.com 
  * @Date: 2019-04-08 17:31:45 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-08-01 18:14:57
+ * @Last Modified time: 2019-08-01 22:30:05
  * @Desc: set config
  */
 
 
 class Ctx {
-  debug = false
   request = {
     get: ()=>{
       console.warn('请求配置未设置')
@@ -28,7 +27,8 @@ class Ctx {
   }
 
   constructor(options){
-    Object.assign(this, options)
+    this.debug = false;
+    Object.assign(this, options);
   }
 
   setRequest = (request) => {
@@ -40,14 +40,13 @@ class Ctx {
   }
 }
 
-Ctx.prototype.log = () =>{
-  if (this.debug) {
+Ctx.prototype.log = function(){
+  if (window.__dna_debug === true) {
     console.log.apply(null, arguments)
   }
 }
 
 const ctx = new Ctx();
-window._dlog = ctx.log;
 
 export default ctx;
 

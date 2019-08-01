@@ -2,9 +2,10 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-22 15:34:20 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-08-01 17:30:54
+ * @Last Modified time: 2019-08-01 22:32:09
  */
 import schema from "async-validator";
+import {isObservableObject, toJS} from 'mobx';
 import Ctx from '@ctx';
 
 export function formatRules(rules, fieldName){
@@ -71,6 +72,13 @@ export function formatRules(rules, fieldName){
 }
 
 export function validating(data, rules) {
+  if(isObservableObject(rules)){
+    rules = toJS(rules);
+  }
+
+  if(isObservableObject(data)){
+    data = toJS(data);
+  }
   return new Promise((resolve, reject)=>{
     var validator = new schema(rules);
     validator.validate(data, (errors, fields) => {
