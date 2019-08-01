@@ -1,8 +1,8 @@
 {
   "name": "@dna-js/dna-form",
-  "version": "0.1.62",
+  "version": "0.2.0",
   "description": "@dna-js/dna-form",
-  "main": "./lib/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "build": "rm -rf lib &&  webpack --config webpack.config.js --progress",
     "test": "echo \"Error: no test specified\" && exit 1"

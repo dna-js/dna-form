@@ -1,12 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
- * @Last Modified by: mikey.zhaopeng
-<<<<<<< HEAD
- * @Last Modified time: 2019-04-28 14:24:08
-=======
- * @Last Modified time: 2019-05-26 01:39:43
->>>>>>> demotion_base_on_ref
+ * @Last Modified by: lianglongfei001@lianjia.com
+ * @Last Modified time: 2019-08-01 18:10:43
  * @desc： 基础form组件
  */
 
@@ -81,27 +77,6 @@ class DnaForm extends AbsForm {
     // 如果 验证规则中存在必填
     if ((validationRules[field.fieldKey]||[]).find(field => field.required)) {
       itemProps.required = true;
-<<<<<<< HEAD
-    }
-    
-    // 验证失败msg
-    if (validationResults[field.fieldKey]) {
-      itemProps.help = validationResults[field.fieldKey][0].message;
-      itemProps.validateStatus = 'error';
-    }
-
-    return itemProps;
-  }
-
-  /**
-   * 表单处于编辑状态及传入了数据的id，则开始获取表单的数据，并入到field的default value中
-   */
-  tryFetchData(){
-    // 非编辑态，不需要获取表单数据
-    if (this.state.status !== 'edit') {
-      return;
-=======
->>>>>>> demotion_base_on_ref
     }
     
     // 验证失败msg

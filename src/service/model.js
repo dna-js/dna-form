@@ -1,14 +1,15 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-12-21 15:38:17 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-26 01:39:29
+ * @Last Modified by: lianglongfei001@lianjia.com
+ * @Last Modified time: 2019-08-01 17:56:25
  * @Desc：表单核心数据逻辑
  * @TODOS: 
  *      [ ] form初始化完成事件
  *      [ ] 独立各Field的初始化
  *      [ ] 增加form init ready的时间节点
  */
+
 import { observable, action, runInAction, _isComputingDerivation, when } from 'mobx';
 import { formatRules, validating } from './validator';
 import { cloneDeep, pick, merge, omit, clone} from "lodash";
@@ -327,7 +328,7 @@ class FormModel {
     const { formData, outerCtx } = this;
     // mobx 会有异常检查
     dataMap = dataMap.slice();
-    // 如果原始数据源中存在url，则请求
+    // 如果原始数据源中存在url，则请求（仅处理第一个数据的数据源）
     if (dataMap.length > 0 && (typeof dataMap[0] == 'string')) {
       // 排除空值
       let tmp = Object.assign({}, formData, ctx), rctx={};
@@ -403,8 +404,6 @@ class FormModel {
     if (this.formData[fieldKey] == value) {
       return;
     }
-    
-    // console.log(`[fieldchange]==>${fieldInfo.fieldKey}: ${this.formData[fieldKey]}=>${value}`)
     
     this.formData[fieldKey] = value;
     this.localFormData[fieldKey] = localValue;

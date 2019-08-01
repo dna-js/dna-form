@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-11-21 17:01:52 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-05-25 23:33:48
+ * @Last Modified by: lianglongfei001@lianjia.com
+ * @Last Modified time: 2019-08-01 15:58:30
  * @Desc: field 之间的联动action 模块
  */
 
@@ -50,7 +50,7 @@ const xactionDealMap = {
   // 刷新target的数据源
   resetDataMap: async function (target, dataModel) {
     dataModel.reloadingDataMap(target);
-    // 清空值，重获数据源都伴随着清空值(只有编辑态时才触发清空)
+    // 清空其当前值，重获数据源都伴随着清空值(只有编辑态时才触发清空)
     if (target._meta.enable === true && target._meta.status !== 'detail') {
       let data = {};
       let {cascaderKeys} = target._meta;

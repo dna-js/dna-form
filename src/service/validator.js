@@ -2,9 +2,10 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-22 15:34:20 
  * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2019-01-22 18:04:23
+ * @Last Modified time: 2019-08-01 17:30:54
  */
 import schema from "async-validator";
+import Ctx from '@ctx';
 
 export function formatRules(rules, fieldName){
   let adapted = [];
@@ -73,6 +74,7 @@ export function validating(data, rules) {
   return new Promise((resolve, reject)=>{
     var validator = new schema(rules);
     validator.validate(data, (errors, fields) => {
+      Ctx.log(errors, fields);
       if (errors) {
         reject(fields);
       }
